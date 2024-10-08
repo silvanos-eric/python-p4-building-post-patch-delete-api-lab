@@ -45,6 +45,16 @@ def bakery_by_id(id):
         return {'message': 'Resource successfully deleted'}, 200
 
 
+@app.route('/baked_goods/<int:id>', methods=['DELETE'])
+def baked_goods_by_id(id):
+    baked_good = BakedGood.query.get(id)
+
+    db.session.delete(baked_good)
+    db.session.commit()
+
+    return {'message': 'Successfully deleted resource.'}
+
+
 @app.route('/baked_goods', methods=['POST'])
 def baked_goods():
     baked_good = BakedGood(name=request.form.get('name'),
