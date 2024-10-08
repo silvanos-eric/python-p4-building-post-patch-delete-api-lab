@@ -26,7 +26,7 @@ def bakeries():
     return make_response(bakeries, 200)
 
 
-@app.route('/bakeries/<int:id>', methods=['GET', 'PATCH'])
+@app.route('/bakeries/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def bakery_by_id(id):
     bakery = Bakery.query.filter_by(id=id).first()
 
@@ -39,6 +39,10 @@ def bakery_by_id(id):
         db.session.commit()
         bakery_serialized = bakery.to_dict()
         return bakery_serialized
+    elif request.method == 'DELETE':
+        db.session.delete(bakery)
+        db.session.commit()
+        return {'message': 'Resource successfully deleted'}, 200
 
 
 @app.route('/baked_goods', methods=['POST'])
